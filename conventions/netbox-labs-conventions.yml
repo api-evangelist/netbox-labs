@@ -1,0 +1,34 @@
+generated: '2026-07-20'
+method: searched
+source: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+authentication:
+  style: api-key-token
+  header: Authorization
+  formats: ['Token <token>  (v1)', 'Bearer <key>.<token>  (v2)']
+  ref: authentication/netbox-labs-authentication.yml
+pagination:
+  styles: [offset, cursor]
+  params: [limit, offset, start]
+  note: 'start (cursor) and offset are mutually exclusive; brief=true returns minimal representations.'
+  response_fields: [count, next, previous, results]
+field_selection:
+  params: [fields, omit, brief]
+  note: 'fields=comma,list returns only those fields; omit excludes fields; brief=true minimal.'
+filtering:
+  note: 'Query params match field names (e.g. device_id=123); ordering= sorts (- prefix = descending).'
+request_tracing:
+  header: X-Request-ID
+  note: Uniquely identifies a request and correlates it with generated change records.
+concurrency:
+  mechanism: etag
+  request_header: If-Match
+  note: Optimistic concurrency via ETag / If-Match conditional updates (not idempotency-key replay).
+versioning:
+  header: API-Version
+  scheme: major.minor (matches installed NetBox release)
+  ref: lifecycle/netbox-labs-lifecycle.yml
+idempotency:
+  supported: false
+  note: No idempotency-key replay header is documented; PUT/PATCH are naturally idempotent, POST is not.
+errors:
+  ref: errors/netbox-labs-problem-types.yml

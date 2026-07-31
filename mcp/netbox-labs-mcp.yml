@@ -1,0 +1,26 @@
+generated: '2026-07-20'
+method: searched
+status: published
+source: https://github.com/netboxlabs/netbox-mcp-server
+docs: https://netboxlabs.com/docs/mcp/
+server:
+  name: netbox-mcp-server
+  vendor: NetBox Labs
+  transport: stdio           # also supports http (streamable HTTP + SSE)
+  transports: [stdio, http, sse]
+  read_only: true
+  repo: https://github.com/netboxlabs/netbox-mcp-server
+  install: docker pull netboxlabs/netbox-mcp-server
+  hosted:
+    name: NetBox Cloud Platform MCP Server
+    docs: https://netboxlabs.com/docs/cloud/platform-mcp-server/
+    note: Hosted streamable-HTTP MCP endpoint for NetBox Cloud tenants; works with Claude Code/Desktop, Cursor, VS Code Copilot, ChatGPT.
+tools:
+  - name: get_objects
+    description: Fetch NetBox objects of a type with smart filtering and field selection.
+  - name: get_object_by_id
+    description: Retrieve full detail for a specific NetBox object by id.
+  - name: get_changelogs
+    description: Retrieve NetBox change-log (object history) records.
+  - name: search
+    description: Search across NetBox objects.

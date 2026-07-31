@@ -1,0 +1,25 @@
+generated: '2026-07-20'
+method: searched
+source: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+packages:
+  - language: python
+    registry: pypi
+    name: pynetbox
+    url: https://pypi.org/project/pynetbox/
+    install: pip install pynetbox
+    official: true
+    repo: https://github.com/netbox-community/pynetbox
+  - language: go
+    registry: pkg.go.dev
+    name: github.com/netbox-community/go-netbox
+    url: https://pkg.go.dev/github.com/netbox-community/go-netbox
+    install: go get github.com/netbox-community/go-netbox
+    official: true
+    repo: https://github.com/netbox-community/go-netbox
+  - language: python
+    registry: github
+    name: netbox-mcp-server
+    url: https://github.com/netboxlabs/netbox-mcp-server
+    install: docker pull netboxlabs/netbox-mcp-server
+    official: true
+    note: Read-only MCP server; distributed via GitHub and Docker Hub (not on PyPI).

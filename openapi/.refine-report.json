@@ -1,0 +1,38 @@
+{
+  "provider": "netbox-labs",
+  "sources": [
+    "netbox-labs-authentication-check-api-openapi.yml",
+    "netbox-labs-circuits-api-openapi.yml",
+    "netbox-labs-core-api-openapi.yml",
+    "netbox-labs-dcim-api-openapi.yml",
+    "netbox-labs-extras-api-openapi.yml",
+    "netbox-labs-ipam-api-openapi.yml",
+    "netbox-labs-schema-api-openapi.yml",
+    "netbox-labs-status-api-openapi.yml",
+    "netbox-labs-tenancy-api-openapi.yml",
+    "netbox-labs-users-api-openapi.yml",
+    "netbox-labs-virtualization-api-openapi.yml",
+    "netbox-labs-vpn-api-openapi.yml",
+    "netbox-labs-wireless-api-openapi.yml"
+  ],
+  "outputs": [
+    "netbox-labs-authentication-check-api-openapi.yml",
+    "netbox-labs-circuits-api-openapi.yml",
+    "netbox-labs-core-api-openapi.yml",
+    "netbox-labs-dcim-api-openapi.yml",
+    "netbox-labs-extras-api-openapi.yml",
+    "netbox-labs-ipam-api-openapi.yml",
+    "netbox-labs-schema-api-openapi.yml",
+    "netbox-labs-status-api-openapi.yml",
+    "netbox-labs-tenancy-api-openapi.yml",
+    "netbox-labs-users-api-openapi.yml",
+    "netbox-labs-virtualization-api-openapi.yml",
+    "netbox-labs-vpn-api-openapi.yml",
+    "netbox-labs-wireless-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,8 +1,15 @@
 aid: netbox-labs
 name: NetBox Labs
-description: 'NetBox Labs is a company surfaced as a portfolio company of ggv-capital and added to the
-  API Evangelist network as a stub for enrichment. Sector: networking. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  NetBox Labs is the commercial company behind NetBox, the open-source network
+  source-of-truth (DCIM and IPAM) used by network and infrastructure teams to model
+  sites, racks, devices, interfaces, IP addresses, prefixes, VLANs, circuits, VPNs,
+  and tenancy. It offers NetBox Cloud and NetBox Enterprise alongside the OSS
+  project. NetBox exposes a comprehensive token-authenticated REST API (OpenAPI 3.0,
+  1,000+ operations across dcim/ipam/circuits/tenancy/virtualization/vpn/wireless),
+  a read-only GraphQL API, official Python (pynetbox) and Go (go-netbox) client
+  libraries, and an official read-only Model Context Protocol (MCP) server for AI
+  agents. The platform is SOC 2 Type II compliant.
 url: https://raw.githubusercontent.com/api-evangelist/netbox-labs/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,18 +17,353 @@ x-backed-by:
 - ggv-capital
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
+image: https://netboxlabs.com/favicon.ico
 tags:
 - Company
 - Networking
-apis: []
+- DCIM
+- IPAM
+- Infrastructure
+- Source of Truth
+- Network Automation
+- OpenAPI
+- MCP
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: netbox-labs:netbox-labs-authentication-check-api
+  name: NetBox Labs authentication-check API
+  description: The authentication-check API from NetBox Labs — 1 operation(s) for authentication-check.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - authentication-check
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-authentication-check-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-circuits-api
+  name: NetBox Labs circuits API
+  description: The circuits API from NetBox Labs — 24 operation(s) for circuits.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - circuits
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-circuits-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-core-api
+  name: NetBox Labs core API
+  description: The core API from NetBox Labs — 21 operation(s) for core.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - core
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-core-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-dcim-api
+  name: NetBox Labs dcim API
+  description: The dcim API from NetBox Labs — 103 operation(s) for dcim.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - dcim
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-dcim-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-extras-api
+  name: NetBox Labs extras API
+  description: The extras API from NetBox Labs — 49 operation(s) for extras.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - extras
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-extras-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-ipam-api
+  name: NetBox Labs ipam API
+  description: The ipam API from NetBox Labs — 41 operation(s) for ipam.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - ipam
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-ipam-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-schema-api
+  name: NetBox Labs schema API
+  description: The schema API from NetBox Labs — 1 operation(s) for schema.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - schema
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-schema-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-status-api
+  name: NetBox Labs status API
+  description: The status API from NetBox Labs — 1 operation(s) for status.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - status
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-status-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-tenancy-api
+  name: NetBox Labs tenancy API
+  description: The tenancy API from NetBox Labs — 12 operation(s) for tenancy.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - tenancy
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-tenancy-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-users-api
+  name: NetBox Labs users API
+  description: The users API from NetBox Labs — 14 operation(s) for users.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-users-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-virtualization-api
+  name: NetBox Labs virtualization API
+  description: The virtualization API from NetBox Labs — 15 operation(s) for virtualization.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - virtualization
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-virtualization-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-vpn-api
+  name: NetBox Labs vpn API
+  description: The vpn API from NetBox Labs — 20 operation(s) for vpn.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - vpn
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-vpn-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
+- aid: netbox-labs:netbox-labs-wireless-api
+  name: NetBox Labs wireless API
+  description: The wireless API from NetBox Labs — 6 operation(s) for wireless.
+  humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+  baseURL: https://demo.netbox.dev/api/
+  tags:
+  - wireless
+  properties:
+  - type: OpenAPI
+    url: openapi/netbox-labs-wireless-api-openapi.yml
+  - type: Authentication
+    url: authentication/netbox-labs-authentication.yml
+  - type: ErrorCatalog
+    url: errors/netbox-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/netbox-labs-conventions.yml
+  - type: DataModel
+    url: data-model/netbox-labs-data-model.yml
+  - type: Conformance
+    url: conformance/netbox-labs-conformance.yml
 common:
 - type: Website
   url: https://netboxlabs.com/
+- type: DeveloperPortal
+  url: https://netboxlabs.com/docs/
+- type: Documentation
+  url: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+- type: APIReference
+  url: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+- type: GettingStarted
+  url: https://netboxlabs.com/docs/netbox/integrations/rest-api/
+- type: Blog
+  url: https://netboxlabs.com/blog/
+- type: Pricing
+  url: https://netboxlabs.com/pricing/
+- type: SignUp
+  url: https://signup.netboxlabs.com/
+- type: Support
+  url: https://netboxlabs.com/contact/
+- type: TermsOfService
+  url: https://netboxlabs.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://netboxlabs.com/privacy-policy/
+- type: GitHubOrganization
+  url: https://github.com/netboxlabs
+- type: StatusPage
+  url: https://status.netboxlabs.com/
+- type: Deprecation
+  url: https://netboxlabs.com/docs/netbox/release-notes/version-4.6
+- type: Lifecycle
+  url: lifecycle/netbox-labs-lifecycle.yml
+- type: ChangeLog
+  url: changelog/netbox-labs-changelog.yml
+- type: Packages
+  url: packages/netbox-labs-packages.yml
+- type: SDKs
+  url: packages/netbox-labs-packages.yml
+- type: MCPServer
+  url: mcp/netbox-labs-mcp.yml
+- type: LLMsTxt
+  url: llms/netbox-labs-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/netbox-labs-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/netbox-labs-vulnerability-disclosure.yml
+- type: Security
+  url: https://netboxlabs.com/security/
+- type: TrustCenter
+  url: security/netbox-labs-trust-center.yml
+- type: Compliance
+  url: https://netboxlabs.com/security/
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v1

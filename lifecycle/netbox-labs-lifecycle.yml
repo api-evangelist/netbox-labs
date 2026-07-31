@@ -1,0 +1,17 @@
+generated: '2026-07-20'
+method: searched
+source: https://github.com/netbox-community/netbox/blob/main/docs/release-notes/index.md
+versioning:
+  scheme: semver (major.minor.patch)
+  current: 4.6.5
+  header: API-Version
+  cadence: 'Minor releases in April, August, December; patch releases roughly every 1-2 weeks as needed.'
+  docs: https://netboxlabs.com/docs/netbox/release-notes/version-4.6
+deprecation:
+  policy: 'Deprecations are announced in minor-release notes ahead of removal (e.g. v4.6.0 deprecated the event-data username/request_id fields and the housekeeping management command).'
+  docs: https://netboxlabs.com/docs/netbox/release-notes/version-4.6
+status_page: https://status.netboxlabs.com/
+sla:
+  note: 'SLA offered under NetBox Cloud / NetBox Enterprise commercial plans.'
+  docs: https://netboxlabs.com/pricing/
+deprecated_operations: []

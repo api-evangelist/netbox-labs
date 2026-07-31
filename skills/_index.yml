@@ -1,0 +1,12 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/netbox-labs-openapi-original.json
+skills:
+  - file: netbox-labs-provision-ip.md
+    name: Provision an IP address from a prefix
+    api: openapi/netbox-labs-openapi-original.json
+    operations: [ipam_prefixes_list, ipam_prefixes_available_ips_list, ipam_prefixes_available_ips_create]
+  - file: netbox-labs-onboard-device.md
+    name: Onboard a device with interfaces at a site
+    api: openapi/netbox-labs-openapi-original.json
+    operations: [dcim_sites_list, dcim_devices_create, dcim_interfaces_create, ipam_ip_addresses_create]

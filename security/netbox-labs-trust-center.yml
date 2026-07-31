@@ -1,0 +1,12 @@
+generated: '2026-07-20'
+method: searched
+probe: true
+source: https://netboxlabs.com/security/
+url: https://netboxlabs.com/security/
+certifications:
+- SOC 2
+evidence:
+- source: https://netboxlabs.com/security/
+  keywords:
+  - soc 2
+  - soc2

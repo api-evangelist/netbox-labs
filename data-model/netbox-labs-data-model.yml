@@ -1,0 +1,73 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/netbox-labs-openapi-original.json
+note: >-
+  NetBox is a DCIM/IPAM source-of-truth. Entities are grouped by app (dcim, ipam,
+  circuits, tenancy, virtualization, vpn, wireless). Relationships below are the
+  core graph derived from the OpenAPI path groups and object references.
+domains: [dcim, ipam, circuits, tenancy, virtualization, vpn, wireless, extras, core, users]
+entities:
+  - name: site
+    domain: dcim
+    relationships:
+      - {type: belongs_to, target: region, via: region}
+      - {type: belongs_to, target: tenant, via: tenant}
+      - {type: has_many, target: rack, via: site}
+      - {type: has_many, target: device, via: site}
+  - name: rack
+    domain: dcim
+    relationships:
+      - {type: belongs_to, target: site, via: site}
+      - {type: has_many, target: device, via: rack}
+  - name: device
+    domain: dcim
+    relationships:
+      - {type: belongs_to, target: site, via: site}
+      - {type: belongs_to, target: rack, via: rack}
+      - {type: belongs_to, target: device-type, via: device_type}
+      - {type: belongs_to, target: device-role, via: role}
+      - {type: belongs_to, target: tenant, via: tenant}
+      - {type: has_many, target: interface, via: device}
+  - name: interface
+    domain: dcim
+    relationships:
+      - {type: belongs_to, target: device, via: device}
+      - {type: has_many, target: ip-address, via: assigned_object}
+  - name: prefix
+    domain: ipam
+    relationships:
+      - {type: belongs_to, target: vrf, via: vrf}
+      - {type: belongs_to, target: site, via: site}
+      - {type: belongs_to, target: role, via: role}
+      - {type: belongs_to, target: tenant, via: tenant}
+  - name: ip-address
+    domain: ipam
+    relationships:
+      - {type: belongs_to, target: vrf, via: vrf}
+      - {type: belongs_to, target: tenant, via: tenant}
+      - {type: belongs_to, target: interface, via: assigned_object}
+  - name: ip-range
+    domain: ipam
+    relationships:
+      - {type: belongs_to, target: vrf, via: vrf}
+  - name: vlan
+    domain: ipam
+    relationships:
+      - {type: belongs_to, target: vlan-group, via: group}
+      - {type: belongs_to, target: site, via: site}
+  - name: circuit
+    domain: circuits
+    relationships:
+      - {type: belongs_to, target: provider, via: provider}
+      - {type: belongs_to, target: circuit-type, via: type}
+      - {type: has_many, target: circuit-termination, via: circuit}
+  - name: tenant
+    domain: tenancy
+    relationships:
+      - {type: belongs_to, target: tenant-group, via: group}
+  - name: virtual-machine
+    domain: virtualization
+    relationships:
+      - {type: belongs_to, target: cluster, via: cluster}
+      - {type: belongs_to, target: tenant, via: tenant}
+id_reference_style: integer primary keys; nested objects returned as brief refs with url+id+display

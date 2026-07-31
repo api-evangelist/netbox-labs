@@ -1,0 +1,34 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/netbox-labs-openapi-original.json
+format: json
+note: >-
+  NetBox returns JSON error bodies (not RFC 9457 problem+json). Validation errors
+  return field-keyed messages; authentication failures return {"detail": "..."}.
+  Error responses declared in the OpenAPI are sparse (400/401/500); the codes below
+  reflect NetBox REST framework behavior documented across the API.
+envelope:
+  validation: 'field-name -> [messages] (HTTP 400)'
+  auth_error: '{"detail": "..."} (HTTP 401/403)'
+problems:
+  - status: 400
+    title: Bad Request / validation error
+    detail: Request body failed field validation; body is a map of field -> error messages.
+  - status: 401
+    title: Unauthorized
+    detail: Missing or invalid authentication token.
+  - status: 403
+    title: Forbidden
+    detail: Authenticated token lacks permission for the object/action, or client IP not allowed.
+  - status: 404
+    title: Not Found
+    detail: Object does not exist or is outside the token's constraints.
+  - status: 409
+    title: Conflict
+    detail: Concurrent-update conflict when using If-Match / ETag optimistic concurrency.
+  - status: 429
+    title: Too Many Requests
+    detail: Rate limit exceeded (when configured on the instance).
+  - status: 500
+    title: Internal Server Error
+    detail: Unhandled server error.
