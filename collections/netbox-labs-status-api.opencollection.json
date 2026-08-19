@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "NetBox REST authentication-check status API",
+    "version": "4.6.5 (4.6)"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "status_retrieve",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/api/status/",
+            "params": [
+              {
+                "name": "brief",
+                "value": "",
+                "type": "query",
+                "description": "Return only brief fields for each object."
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to include in the response. Example: `fields=id,name`."
+              },
+              {
+                "name": "omit",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to exclude from the response. Example: `omit=description,tags`."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "sessionid",
+              "value": "{{sessionid}}",
+              "placement": "query"
+            }
+          },
+          "docs": "A lightweight read-only endpoint for conveying NetBox's current operational status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
