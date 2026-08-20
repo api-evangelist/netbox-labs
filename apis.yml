@@ -75,6 +75,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - Circuits
+  tags_raw:
   - circuits
   properties:
   - type: OpenAPI
@@ -95,6 +97,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - Core
+  tags_raw:
   - core
   properties:
   - type: OpenAPI
@@ -115,6 +119,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - DCIM
+  tags_raw:
   - dcim
   properties:
   - type: OpenAPI
@@ -155,6 +161,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - IPAM
+  tags_raw:
   - ipam
   properties:
   - type: OpenAPI
@@ -175,6 +183,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - Schema
+  tags_raw:
   - schema
   properties:
   - type: OpenAPI
@@ -195,6 +205,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - Status
+  tags_raw:
   - status
   properties:
   - type: OpenAPI
@@ -215,6 +227,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - Tenancy
+  tags_raw:
   - tenancy
   properties:
   - type: OpenAPI
@@ -235,6 +249,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
@@ -255,6 +271,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - Virtualization
+  tags_raw:
   - virtualization
   properties:
   - type: OpenAPI
@@ -275,6 +293,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - VPN
+  tags_raw:
   - vpn
   properties:
   - type: OpenAPI
@@ -295,6 +315,8 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
+  - Wireless
+  tags_raw:
   - wireless
   properties:
   - type: OpenAPI
