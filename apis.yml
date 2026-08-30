@@ -87,7 +87,7 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
-  - Circuits
+  - circuits
   tags_raw:
   - circuits
   properties:
@@ -131,7 +131,7 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
-  - DCIM
+  - dcim
   tags_raw:
   - dcim
   properties:
@@ -173,7 +173,7 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
-  - IPAM
+  - ipam
   tags_raw:
   - ipam
   properties:
@@ -239,7 +239,7 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
-  - Tenancy
+  - tenancy
   tags_raw:
   - tenancy
   properties:
@@ -305,7 +305,7 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
-  - VPN
+  - vpn
   tags_raw:
   - vpn
   properties:
@@ -327,7 +327,7 @@ apis:
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
   tags:
-  - Wireless
+  - wireless
   tags_raw:
   - wireless
   properties:
