@@ -345,6 +345,8 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 common:
+- type: Plans
+  url: plans/netbox-labs-plans-pricing.yml
 - type: CapabilityMap
   url: capabilities/netbox-labs-capability-edges.yml
   name: NetBox Labs Business Capability Map

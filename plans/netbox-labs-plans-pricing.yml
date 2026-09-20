@@ -1,0 +1,33 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://netboxlabs.com/pricing/
+sources:
+- https://netboxlabs.com/pricing/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: negotiated
+published: false
+note: No numeric price is published on the pricing page; Pricing page for NetBox Cloud/Enterprise lists
+  three tiers with feature comparison but no numeric prices; all plans say Contact Sales. Data retention
+  limits noted (e.g. 'Up to 1 year or 500 MB of data') but no pricing.
+plan_count: 3
+plans:
+- name: Starter
+  price_text: Contact Sales
+  period: none
+  included_quota: Single tenant application, shared database cluster, 1 production environment, email
+    support, certified plugins
+- name: Professional
+  price_text: Contact sales
+  period: none
+  included_quota: Everything in Starter, plus 1 production plus 1 dev/staging environment, SSO group mapping,
+    on-demand upgrades, compatible plugins
+- name: Premium
+  price_text: Contact sales
+  period: none
+  included_quota: Everything in Professional, plus SOC2 access, enterprise SAML/custom SSO, HA deployment,
+    24×7 support with SLAs, private plugins
