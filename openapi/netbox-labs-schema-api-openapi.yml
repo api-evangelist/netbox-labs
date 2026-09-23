@@ -1,6 +1,6 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: NetBox REST authentication-check schema API
+  title: NetBox REST Schema API
   version: 4.6.5 (4.6)
   license:
     name: Apache v2 License
@@ -8,7 +8,7 @@ servers:
 - url: ''
   description: NetBox
 tags:
-- name: schema
+- name: Schema
 paths:
   /api/schema/:
     get:
@@ -65,7 +65,7 @@ paths:
           type: string
         description: 'Comma-separated list of fields to exclude from the response. Example: `omit=description,tags`.'
       tags:
-      - schema
+      - Schema
       security:
       - cookieAuth: []
       - tokenAuth: []
@@ -90,6 +90,8 @@ paths:
                 type: object
                 additionalProperties: {}
           description: ''
+      summary: Schema retrieve
+      x-summary-source: derived
 components:
   securitySchemes:
     cookieAuth:
