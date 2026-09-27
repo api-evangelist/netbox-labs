@@ -63,7 +63,7 @@ maintainers:
   email: info@apis.io
 apis:
 - aid: netbox-labs:netbox-labs-authentication-check-api
-  name: NetBox Labs authentication-check API
+  name: NetBox Labs Authentication Check API
   description: The authentication-check API from NetBox Labs — 1 operation(s) for authentication-check.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -83,7 +83,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-circuits-api
-  name: NetBox Labs circuits API
+  name: NetBox Labs Circuits API
   description: The circuits API from NetBox Labs — 24 operation(s) for circuits.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -105,7 +105,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-core-api
-  name: NetBox Labs core API
+  name: NetBox Labs Core API
   description: The core API from NetBox Labs — 21 operation(s) for core.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -127,7 +127,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-dcim-api
-  name: NetBox Labs dcim API
+  name: NetBox Labs Dcim API
   description: The dcim API from NetBox Labs — 103 operation(s) for dcim.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -149,7 +149,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-extras-api
-  name: NetBox Labs extras API
+  name: NetBox Labs Extras API
   description: The extras API from NetBox Labs — 49 operation(s) for extras.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -169,7 +169,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-ipam-api
-  name: NetBox Labs ipam API
+  name: NetBox Labs Ipam API
   description: The ipam API from NetBox Labs — 41 operation(s) for ipam.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -191,7 +191,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-schema-api
-  name: NetBox Labs schema API
+  name: NetBox Labs Schema API
   description: The schema API from NetBox Labs — 1 operation(s) for schema.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -213,7 +213,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-status-api
-  name: NetBox Labs status API
+  name: NetBox Labs Status API
   description: The status API from NetBox Labs — 1 operation(s) for status.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -235,7 +235,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-tenancy-api
-  name: NetBox Labs tenancy API
+  name: NetBox Labs Tenancy API
   description: The tenancy API from NetBox Labs — 12 operation(s) for tenancy.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -257,7 +257,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-users-api
-  name: NetBox Labs users API
+  name: NetBox Labs Users API
   description: The users API from NetBox Labs — 14 operation(s) for users.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -279,7 +279,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-virtualization-api
-  name: NetBox Labs virtualization API
+  name: NetBox Labs Virtualization API
   description: The virtualization API from NetBox Labs — 15 operation(s) for virtualization.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -301,7 +301,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-vpn-api
-  name: NetBox Labs vpn API
+  name: NetBox Labs Vpn API
   description: The vpn API from NetBox Labs — 20 operation(s) for vpn.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
@@ -323,7 +323,7 @@ apis:
   - type: Conformance
     url: conformance/netbox-labs-conformance.yml
 - aid: netbox-labs:netbox-labs-wireless-api
-  name: NetBox Labs wireless API
+  name: NetBox Labs Wireless API
   description: The wireless API from NetBox Labs — 6 operation(s) for wireless.
   humanURL: https://netboxlabs.com/docs/netbox/integrations/rest-api/
   baseURL: https://demo.netbox.dev/api/
