@@ -4172,12 +4172,10 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PatchedBulkDataSourceRequest:
+    DataSourceRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
-        id:
-          type: integer
         name:
           type: string
           minLength: 1
@@ -4247,206 +4245,92 @@ components:
           type: object
           additionalProperties: {}
       required:
-      - id
-    BriefOwner:
+      - name
+      - source_url
+      - type
+    BackgroundTaskRequest:
       type: object
-      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
-
-        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
       properties:
         id:
-          type: integer
-          readOnly: true
-        url:
           type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
+          minLength: 1
         description:
           type: string
-          maxLength: 200
-      required:
-      - display
-      - id
-      - name
-      - url
-    PaginatedJobList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
+          minLength: 1
+        origin:
+          type: string
+          minLength: 1
+        func_name:
+          type: string
+          minLength: 1
+        result:
+          type: string
+          minLength: 1
+        timeout:
           type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Job'
-    Job:
-      type: object
-      properties:
-        id:
+        result_ttl:
           type: integer
-          readOnly: true
-        url:
+        created_at:
           type: string
-          format: uri
-          readOnly: true
-        display_url:
+          format: date-time
+        enqueued_at:
           type: string
-          format: uri
-          readOnly: true
-        display:
+          format: date-time
+        started_at:
           type: string
-          readOnly: true
-        object_type:
+          format: date-time
+        ended_at:
           type: string
-          readOnly: true
-        object_id:
-          type:
-          - integer
-          - 'null'
-          maximum: 9223372036854775807
-          minimum: 0
-          format: int64
-        object:
-          readOnly: true
-        name:
+          format: date-time
+        worker_name:
           type: string
-          maxLength: 200
-        status:
+          minLength: 1
+        meta:
           type: object
-          properties:
-            value:
-              enum:
-              - pending
-              - scheduled
-              - running
-              - completed
-              - errored
-              - failed
-              type: string
-              description: '* `pending` - Pending
-
-                * `scheduled` - Scheduled
-
-                * `running` - Running
-
-                * `completed` - Completed
-
-                * `errored` - Errored
-
-                * `failed` - Failed'
-              x-spec-enum-id: b3049df95b935eab
-            label:
-              type: string
-              enum:
-              - Pending
-              - Scheduled
-              - Running
-              - Completed
-              - Errored
-              - Failed
-          readOnly: true
-        created:
+          additionalProperties: {}
+        last_heartbeat:
           type: string
-          format: date-time
-          readOnly: true
-        scheduled:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        interval:
-          type:
-          - integer
-          - 'null'
-          maximum: 2147483647
-          minimum: 1
-          description: Recurrence interval (in minutes)
-        started:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        completed:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        user:
-          allOf:
-          - $ref: '#/components/schemas/BriefUser'
-          readOnly: true
-        data: {}
-        error:
-          type: string
-          readOnly: true
-        job_id:
-          type: string
-          format: uuid
-        queue_name:
-          type: string
-          description: Name of the queue in which this job was enqueued
-          maxLength: 100
-        notifications:
-          type: object
-          properties:
-            value:
-              enum:
-              - always
-              - on_failure
-              - never
-              type: string
-              description: '* `always` - Always
-
-                * `on_failure` - On failure
-
-                * `never` - Never'
-              x-spec-enum-id: 57071f4400340a5c
-            label:
-              type: string
-              enum:
-              - Always
-              - On failure
-              - Never
-          readOnly: true
-        log_entries:
-          type: array
-          items: {}
+          minLength: 1
+        is_finished:
+          type: boolean
+        is_queued:
+          type: boolean
+        is_failed:
+          type: boolean
+        is_started:
+          type: boolean
+        is_deferred:
+          type: boolean
+        is_canceled:
+          type: boolean
+        is_scheduled:
+          type: boolean
+        is_stopped:
+          type: boolean
       required:
-      - created
-      - display
-      - display_url
-      - error
+      - created_at
+      - description
+      - ended_at
+      - enqueued_at
+      - func_name
       - id
-      - job_id
-      - name
-      - notifications
-      - object
-      - object_type
-      - status
-      - url
-      - user
-    PatchedWritableDataSourceRequest:
+      - is_canceled
+      - is_deferred
+      - is_failed
+      - is_finished
+      - is_queued
+      - is_scheduled
+      - is_started
+      - is_stopped
+      - last_heartbeat
+      - meta
+      - origin
+      - result
+      - result_ttl
+      - started_at
+      - timeout
+      - worker_name
+    WritableDataSourceRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
@@ -4508,157 +4392,10 @@ components:
         custom_fields:
           type: object
           additionalProperties: {}
-    BulkDataSourceRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        type:
-          enum:
-          - null
-          - local
-          - git
-          - amazon-s3
-          description: '* `None` - ---------
-
-            * `local` - Local
-
-            * `git` - Git
-
-            * `amazon-s3` - Amazon S3'
-          x-spec-enum-id: 562b613a749b34b0
-        source_url:
-          type: string
-          minLength: 1
-          title: URL
-          maxLength: 200
-        enabled:
-          type: boolean
-        description:
-          type: string
-          maxLength: 200
-        sync_interval:
-          enum:
-          - 1
-          - 60
-          - 720
-          - 1440
-          - 10080
-          - 43200
-          - null
-          type:
-          - integer
-          - 'null'
-          description: '* `1` - Minutely
-
-            * `60` - Hourly
-
-            * `720` - 12 hours
-
-            * `1440` - Daily
-
-            * `10080` - Weekly
-
-            * `43200` - 30 days'
-          x-spec-enum-id: 2e9f2567ecd93fbe
-          minimum: 0
-          maximum: 32767
-        parameters: {}
-        ignore_rules:
-          type: string
-          description: Patterns (one per line) matching files or paths to ignore when syncing
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-        custom_fields:
-          type: object
-          additionalProperties: {}
       required:
-      - id
       - name
       - source_url
       - type
-    PaginatedObjectChangeList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ObjectChange'
-    DataFile:
-      type: object
-      description: Adds support for custom fields and tags.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display_url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        source:
-          allOf:
-          - $ref: '#/components/schemas/BriefDataSource'
-          readOnly: true
-        path:
-          type: string
-          readOnly: true
-          description: File path relative to the data source's root
-        last_updated:
-          type: string
-          format: date-time
-          readOnly: true
-        size:
-          type: integer
-          readOnly: true
-        hash:
-          type: string
-          readOnly: true
-          description: SHA256 hash of the file data
-      required:
-      - display
-      - display_url
-      - hash
-      - id
-      - last_updated
-      - path
-      - size
-      - source
-      - url
     PaginatedObjectTypeList:
       type: object
       required:
@@ -4684,7 +4421,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ObjectType'
-    BriefUser:
+    BriefOwner:
       type: object
       description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
 
@@ -4700,16 +4437,42 @@ components:
         display:
           type: string
           readOnly: true
-        username:
+        name:
           type: string
-          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
       required:
       - display
       - id
+      - name
       - url
-      - username
+    BriefDataSource:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - display
+      - id
+      - name
+      - url
     DataSource:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
@@ -4867,32 +4630,7 @@ components:
       - status
       - type
       - url
-    BriefDataSource:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        description:
-          type: string
-          maxLength: 200
-      required:
-      - display
-      - id
-      - name
-      - url
-    PaginatedDataFileList:
+    PaginatedDataSourceList:
       type: object
       required:
       - count
@@ -4916,7 +4654,155 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/DataFile'
+            $ref: '#/components/schemas/DataSource'
+    PaginatedObjectChangeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectChange'
+    BackgroundTask:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        description:
+          type: string
+        origin:
+          type: string
+        func_name:
+          type: string
+        args:
+          type: array
+          items: {}
+          readOnly: true
+        kwargs:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        result:
+          type: string
+        timeout:
+          type: integer
+        result_ttl:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        enqueued_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+        worker_name:
+          type: string
+        position:
+          type: integer
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+        meta:
+          type: object
+          additionalProperties: {}
+        last_heartbeat:
+          type: string
+        is_finished:
+          type: boolean
+        is_queued:
+          type: boolean
+        is_failed:
+          type: boolean
+        is_started:
+          type: boolean
+        is_deferred:
+          type: boolean
+        is_canceled:
+          type: boolean
+        is_scheduled:
+          type: boolean
+        is_stopped:
+          type: boolean
+      required:
+      - args
+      - created_at
+      - description
+      - ended_at
+      - enqueued_at
+      - func_name
+      - id
+      - is_canceled
+      - is_deferred
+      - is_failed
+      - is_finished
+      - is_queued
+      - is_scheduled
+      - is_started
+      - is_stopped
+      - kwargs
+      - last_heartbeat
+      - meta
+      - origin
+      - position
+      - result
+      - result_ttl
+      - started_at
+      - status
+      - timeout
+      - url
+      - worker_name
+    PaginatedJobList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
     ObjectType:
       type: object
       properties:
@@ -5069,10 +4955,224 @@ components:
       - url
       - user
       - user_name
-    DataSourceRequest:
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display_url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        object_type:
+          type: string
+          readOnly: true
+        object_id:
+          type:
+          - integer
+          - 'null'
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        object:
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+        status:
+          type: object
+          properties:
+            value:
+              enum:
+              - pending
+              - scheduled
+              - running
+              - completed
+              - errored
+              - failed
+              type: string
+              description: '* `pending` - Pending
+
+                * `scheduled` - Scheduled
+
+                * `running` - Running
+
+                * `completed` - Completed
+
+                * `errored` - Errored
+
+                * `failed` - Failed'
+              x-spec-enum-id: b3049df95b935eab
+            label:
+              type: string
+              enum:
+              - Pending
+              - Scheduled
+              - Running
+              - Completed
+              - Errored
+              - Failed
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        scheduled:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        interval:
+          type:
+          - integer
+          - 'null'
+          maximum: 2147483647
+          minimum: 1
+          description: Recurrence interval (in minutes)
+        started:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        completed:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        user:
+          allOf:
+          - $ref: '#/components/schemas/BriefUser'
+          readOnly: true
+        data: {}
+        error:
+          type: string
+          readOnly: true
+        job_id:
+          type: string
+          format: uuid
+        queue_name:
+          type: string
+          description: Name of the queue in which this job was enqueued
+          maxLength: 100
+        notifications:
+          type: object
+          properties:
+            value:
+              enum:
+              - always
+              - on_failure
+              - never
+              type: string
+              description: '* `always` - Always
+
+                * `on_failure` - On failure
+
+                * `never` - Never'
+              x-spec-enum-id: 57071f4400340a5c
+            label:
+              type: string
+              enum:
+              - Always
+              - On failure
+              - Never
+          readOnly: true
+        log_entries:
+          type: array
+          items: {}
+      required:
+      - created
+      - display
+      - display_url
+      - error
+      - id
+      - job_id
+      - name
+      - notifications
+      - object
+      - object_type
+      - status
+      - url
+      - user
+    BriefUser:
+      type: object
+      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
+
+        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+      required:
+      - display
+      - id
+      - url
+      - username
+    BriefOwnerRequest:
+      type: object
+      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
+
+        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - name
+    PaginatedDataFileList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataFile'
+    PatchedBulkDataSourceRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
+        id:
+          type: integer
         name:
           type: string
           minLength: 1
@@ -5142,123 +5242,87 @@ components:
           type: object
           additionalProperties: {}
       required:
-      - name
-      - source_url
-      - type
-    BackgroundTask:
+      - id
+    BulkDataSourceRequest:
       type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
       properties:
         id:
-          type: string
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        description:
-          type: string
-        origin:
-          type: string
-        func_name:
-          type: string
-        args:
-          type: array
-          items: {}
-          readOnly: true
-        kwargs:
-          type: object
-          additionalProperties: {}
-          readOnly: true
-        result:
-          type: string
-        timeout:
           type: integer
-        result_ttl:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        enqueued_at:
-          type: string
-          format: date-time
-        started_at:
-          type: string
-          format: date-time
-        ended_at:
-          type: string
-          format: date-time
-        worker_name:
-          type: string
-        position:
-          type: integer
-          readOnly: true
-        status:
-          type: string
-          readOnly: true
-        meta:
-          type: object
-          additionalProperties: {}
-        last_heartbeat:
-          type: string
-        is_finished:
-          type: boolean
-        is_queued:
-          type: boolean
-        is_failed:
-          type: boolean
-        is_started:
-          type: boolean
-        is_deferred:
-          type: boolean
-        is_canceled:
-          type: boolean
-        is_scheduled:
-          type: boolean
-        is_stopped:
-          type: boolean
-      required:
-      - args
-      - created_at
-      - description
-      - ended_at
-      - enqueued_at
-      - func_name
-      - id
-      - is_canceled
-      - is_deferred
-      - is_failed
-      - is_finished
-      - is_queued
-      - is_scheduled
-      - is_started
-      - is_stopped
-      - kwargs
-      - last_heartbeat
-      - meta
-      - origin
-      - position
-      - result
-      - result_ttl
-      - started_at
-      - status
-      - timeout
-      - url
-      - worker_name
-    BriefOwnerRequest:
-      type: object
-      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
-
-        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
-      properties:
         name:
           type: string
           minLength: 1
           maxLength: 100
+        type:
+          enum:
+          - null
+          - local
+          - git
+          - amazon-s3
+          description: '* `None` - ---------
+
+            * `local` - Local
+
+            * `git` - Git
+
+            * `amazon-s3` - Amazon S3'
+          x-spec-enum-id: 562b613a749b34b0
+        source_url:
+          type: string
+          minLength: 1
+          title: URL
+          maxLength: 200
+        enabled:
+          type: boolean
         description:
           type: string
           maxLength: 200
+        sync_interval:
+          enum:
+          - 1
+          - 60
+          - 720
+          - 1440
+          - 10080
+          - 43200
+          - null
+          type:
+          - integer
+          - 'null'
+          description: '* `1` - Minutely
+
+            * `60` - Hourly
+
+            * `720` - 12 hours
+
+            * `1440` - Daily
+
+            * `10080` - Weekly
+
+            * `43200` - 30 days'
+          x-spec-enum-id: 2e9f2567ecd93fbe
+          minimum: 0
+          maximum: 32767
+        parameters: {}
+        ignore_rules:
+          type: string
+          description: Patterns (one per line) matching files or paths to ignore when syncing
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+        custom_fields:
+          type: object
+          additionalProperties: {}
       required:
+      - id
       - name
-    WritableDataSourceRequest:
+      - source_url
+      - type
+    PatchedWritableDataSourceRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
@@ -5320,117 +5384,53 @@ components:
         custom_fields:
           type: object
           additionalProperties: {}
-      required:
-      - name
-      - source_url
-      - type
-    PaginatedDataSourceList:
+    DataFile:
       type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataSource'
-    BackgroundTaskRequest:
-      type: object
+      description: Adds support for custom fields and tags.
       properties:
         id:
-          type: string
-          minLength: 1
-        description:
-          type: string
-          minLength: 1
-        origin:
-          type: string
-          minLength: 1
-        func_name:
-          type: string
-          minLength: 1
-        result:
-          type: string
-          minLength: 1
-        timeout:
           type: integer
-        result_ttl:
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display_url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        source:
+          allOf:
+          - $ref: '#/components/schemas/BriefDataSource'
+          readOnly: true
+        path:
+          type: string
+          readOnly: true
+          description: File path relative to the data source's root
+        last_updated:
+          type: string
+          format: date-time
+          readOnly: true
+        size:
           type: integer
-        created_at:
+          readOnly: true
+        hash:
           type: string
-          format: date-time
-        enqueued_at:
-          type: string
-          format: date-time
-        started_at:
-          type: string
-          format: date-time
-        ended_at:
-          type: string
-          format: date-time
-        worker_name:
-          type: string
-          minLength: 1
-        meta:
-          type: object
-          additionalProperties: {}
-        last_heartbeat:
-          type: string
-          minLength: 1
-        is_finished:
-          type: boolean
-        is_queued:
-          type: boolean
-        is_failed:
-          type: boolean
-        is_started:
-          type: boolean
-        is_deferred:
-          type: boolean
-        is_canceled:
-          type: boolean
-        is_scheduled:
-          type: boolean
-        is_stopped:
-          type: boolean
+          readOnly: true
+          description: SHA256 hash of the file data
       required:
-      - created_at
-      - description
-      - ended_at
-      - enqueued_at
-      - func_name
+      - display
+      - display_url
+      - hash
       - id
-      - is_canceled
-      - is_deferred
-      - is_failed
-      - is_finished
-      - is_queued
-      - is_scheduled
-      - is_started
-      - is_stopped
-      - last_heartbeat
-      - meta
-      - origin
-      - result
-      - result_ttl
-      - started_at
-      - timeout
-      - worker_name
+      - last_updated
+      - path
+      - size
+      - source
+      - url
   securitySchemes:
     cookieAuth:
       type: apiKey

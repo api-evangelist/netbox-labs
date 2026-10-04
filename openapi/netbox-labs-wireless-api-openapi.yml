@@ -4285,7 +4285,81 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    BriefVLAN:
+    WirelessLANGroup:
+      type: object
+      description: Base serializer class for models inheriting from NestedGroupModel.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display_url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        parent:
+          allOf:
+          - $ref: '#/components/schemas/NestedWirelessLANGroup'
+        description:
+          type: string
+          maxLength: 200
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTag'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+        created:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        last_updated:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        wirelesslan_count:
+          type: integer
+          readOnly: true
+          default: 0
+        owner:
+          allOf:
+          - $ref: '#/components/schemas/BriefOwner'
+        comments:
+          type: string
+        _depth:
+          type: integer
+          readOnly: true
+          title: ' depth'
+      required:
+      - _depth
+      - created
+      - display
+      - display_url
+      - id
+      - last_updated
+      - name
+      - slug
+      - url
+      - wirelesslan_count
+    BriefTenant:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
@@ -4299,15 +4373,13 @@ components:
         display:
           type: string
           readOnly: true
-        vid:
-          type: integer
-          maximum: 4094
-          minimum: 1
-          title: VLAN ID
-          description: Numeric VLAN ID (1-4094)
         name:
           type: string
-          maxLength: 64
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
         description:
           type: string
           maxLength: 200
@@ -4315,9 +4387,21 @@ components:
       - display
       - id
       - name
+      - slug
       - url
-      - vid
-    WirelessLANRequest:
+    BriefDeviceRequest:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 64
+        description:
+          type: string
+          maxLength: 200
+    PatchedWritableWirelessLANRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
@@ -4339,7 +4423,6 @@ components:
           - reserved
           - disabled
           - deprecated
-          - ''
           type: string
           description: '* `active` - Active
 
@@ -4374,7 +4457,10 @@ components:
           - wpa-personal
           - wpa-enterprise
           - ''
-          type: string
+          - null
+          type:
+          - string
+          - 'null'
           description: '* `open` - Open
 
             * `wep` - WEP
@@ -4383,19 +4469,24 @@ components:
 
             * `wpa-enterprise` - WPA Enterprise'
           x-spec-enum-id: e917c12aac765910
+          title: Authentication type
         auth_cipher:
           enum:
           - auto
           - tkip
           - aes
           - ''
-          type: string
+          - null
+          type:
+          - string
+          - 'null'
           description: '* `auto` - Auto
 
             * `tkip` - TKIP
 
             * `aes` - AES'
           x-spec-enum-id: 42f867e89988bb0c
+          title: Authentication cipher
         auth_psk:
           type: string
           title: Pre-shared key
@@ -4414,11 +4505,11 @@ components:
         custom_fields:
           type: object
           additionalProperties: {}
-      required:
-      - ssid
-    BriefDevice:
+    BriefOwner:
       type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
+      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
+
+        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
       properties:
         id:
           type: integer
@@ -4431,16 +4522,15 @@ components:
           type: string
           readOnly: true
         name:
-          type:
-          - string
-          - 'null'
-          maxLength: 64
+          type: string
+          maxLength: 100
         description:
           type: string
           maxLength: 200
       required:
       - display
       - id
+      - name
       - url
     PatchedBulkWirelessLANRequest:
       type: object
@@ -4543,114 +4633,10 @@ components:
           additionalProperties: {}
       required:
       - id
-    PatchedWritableWirelessLANGroupRequest:
-      type: object
-      description: Base serializer class for models inheriting from NestedGroupModel.
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        slug:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        parent:
-          type:
-          - integer
-          - 'null'
-        description:
-          type: string
-          maxLength: 200
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTagRequest'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-    BriefTenant:
+    WritableWirelessLANRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        slug:
-          type: string
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        description:
-          type: string
-          maxLength: 200
-      required:
-      - display
-      - id
-      - name
-      - slug
-      - url
-    BriefInterface:
-      type: object
-      description: Adds an `owner` field for models which have a ForeignKey to users.Owner.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        device:
-          $ref: '#/components/schemas/BriefDevice'
-        name:
-          type: string
-          maxLength: 64
-        description:
-          type: string
-          maxLength: 200
-        cable:
-          allOf:
-          - $ref: '#/components/schemas/BriefCable'
-          readOnly: true
-        _occupied:
-          type: boolean
-          readOnly: true
-          title: ' occupied'
-      required:
-      - _occupied
-      - cable
-      - device
-      - display
-      - id
-      - name
-      - url
-    BulkWirelessLANRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        id:
-          type: integer
         ssid:
           type: string
           minLength: 1
@@ -4669,7 +4655,6 @@ components:
           - reserved
           - disabled
           - deprecated
-          - ''
           type: string
           description: '* `active` - Active
 
@@ -4692,226 +4677,6 @@ components:
           type:
           - integer
           - 'null'
-        tenant:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefTenantRequest'
-        auth_type:
-          enum:
-          - open
-          - wep
-          - wpa-personal
-          - wpa-enterprise
-          - ''
-          type: string
-          description: '* `open` - Open
-
-            * `wep` - WEP
-
-            * `wpa-personal` - WPA Personal (PSK)
-
-            * `wpa-enterprise` - WPA Enterprise'
-          x-spec-enum-id: e917c12aac765910
-        auth_cipher:
-          enum:
-          - auto
-          - tkip
-          - aes
-          - ''
-          type: string
-          description: '* `auto` - Auto
-
-            * `tkip` - TKIP
-
-            * `aes` - AES'
-          x-spec-enum-id: 42f867e89988bb0c
-        auth_psk:
-          type: string
-          title: Pre-shared key
-          maxLength: 64
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTagRequest'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-      required:
-      - id
-      - ssid
-    WritableWirelessLANGroupRequest:
-      type: object
-      description: Base serializer class for models inheriting from NestedGroupModel.
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        slug:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        parent:
-          type:
-          - integer
-          - 'null'
-        description:
-          type: string
-          maxLength: 200
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTagRequest'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-      required:
-      - name
-      - slug
-    WirelessLANGroup:
-      type: object
-      description: Base serializer class for models inheriting from NestedGroupModel.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display_url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        slug:
-          type: string
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        parent:
-          allOf:
-          - $ref: '#/components/schemas/NestedWirelessLANGroup'
-        description:
-          type: string
-          maxLength: 200
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTag'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-        created:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        last_updated:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        wirelesslan_count:
-          type: integer
-          readOnly: true
-          default: 0
-        owner:
-          allOf:
-          - $ref: '#/components/schemas/BriefOwner'
-        comments:
-          type: string
-        _depth:
-          type: integer
-          readOnly: true
-          title: ' depth'
-      required:
-      - _depth
-      - created
-      - display
-      - display_url
-      - id
-      - last_updated
-      - name
-      - slug
-      - url
-      - wirelesslan_count
-    BriefOwner:
-      type: object
-      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
-
-        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        description:
-          type: string
-          maxLength: 200
-      required:
-      - display
-      - id
-      - name
-      - url
-    WritableWirelessLinkRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        interface_a:
-          oneOf:
-          - type: integer
-          - $ref: '#/components/schemas/BriefInterfaceRequest'
-        interface_b:
-          oneOf:
-          - type: integer
-          - $ref: '#/components/schemas/BriefInterfaceRequest'
-        ssid:
-          type: string
-          maxLength: 32
-        status:
-          enum:
-          - connected
-          - planned
-          - decommissioning
-          type: string
-          description: '* `connected` - Connected
-
-            * `planned` - Planned
-
-            * `decommissioning` - Decommissioning'
-          x-spec-enum-id: 80d251a40f3a3144
         tenant:
           oneOf:
           - type: integer
@@ -4958,35 +4723,6 @@ components:
           type: string
           title: Pre-shared key
           maxLength: 64
-        distance:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000
-          exclusiveMaximum: 1000000
-        distance_unit:
-          enum:
-          - km
-          - m
-          - mi
-          - ft
-          - ''
-          - null
-          type:
-          - string
-          - 'null'
-          description: '* `km` - Kilometers
-
-            * `m` - Meters
-
-            * `mi` - Miles
-
-            * `ft` - Feet'
-          x-spec-enum-id: b1169a409430c02e
-        description:
-          type: string
-          maxLength: 200
         owner:
           oneOf:
           - type: integer
@@ -5002,8 +4738,7 @@ components:
           type: object
           additionalProperties: {}
       required:
-      - interface_a
-      - interface_b
+      - ssid
     WirelessLinkRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
@@ -5115,46 +4850,7 @@ components:
       required:
       - interface_a
       - interface_b
-    BriefWirelessLANGroupRequest:
-      type: object
-      description: Base serializer class for models inheriting from NestedGroupModel.
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        slug:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        description:
-          type: string
-          maxLength: 200
-      required:
-      - name
-      - slug
-    NestedWirelessLANGroupRequest:
-      type: object
-      description: 'Represents an object related through a ForeignKey field. On write, it accepts a primary key (PK) value or a
-
-        dictionary of attributes which can be used to uniquely identify the related object. This class should be
-
-        subclassed to return a full representation of the related object on read.'
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        slug:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-      required:
-      - name
-      - slug
-    NestedWirelessLANGroup:
+    NestedTag:
       type: object
       description: 'Represents an object related through a ForeignKey field. On write, it accepts a primary key (PK) value or a
 
@@ -5181,218 +4877,19 @@ components:
           maxLength: 100
         slug:
           type: string
+          pattern: ^[-\w]+$
           maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        _depth:
-          type: integer
-          readOnly: true
-          title: ' depth'
+        color:
+          type: string
+          pattern: ^[0-9a-f]{6}$
+          maxLength: 6
       required:
-      - _depth
       - display
       - display_url
       - id
       - name
       - slug
       - url
-    WirelessLANGroupRequest:
-      type: object
-      description: Base serializer class for models inheriting from NestedGroupModel.
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        slug:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        parent:
-          allOf:
-          - $ref: '#/components/schemas/NestedWirelessLANGroupRequest'
-        description:
-          type: string
-          maxLength: 200
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTagRequest'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-      required:
-      - name
-      - slug
-    PatchedBulkWirelessLinkRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        id:
-          type: integer
-        interface_a:
-          oneOf:
-          - type: integer
-          - $ref: '#/components/schemas/BriefInterfaceRequest'
-        interface_b:
-          oneOf:
-          - type: integer
-          - $ref: '#/components/schemas/BriefInterfaceRequest'
-        ssid:
-          type: string
-          maxLength: 32
-        status:
-          enum:
-          - connected
-          - planned
-          - decommissioning
-          type: string
-          description: '* `connected` - Connected
-
-            * `planned` - Planned
-
-            * `decommissioning` - Decommissioning'
-          x-spec-enum-id: 80d251a40f3a3144
-        tenant:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefTenantRequest'
-        auth_type:
-          enum:
-          - open
-          - wep
-          - wpa-personal
-          - wpa-enterprise
-          - ''
-          type: string
-          description: '* `open` - Open
-
-            * `wep` - WEP
-
-            * `wpa-personal` - WPA Personal (PSK)
-
-            * `wpa-enterprise` - WPA Enterprise'
-          x-spec-enum-id: e917c12aac765910
-        auth_cipher:
-          enum:
-          - auto
-          - tkip
-          - aes
-          - ''
-          type: string
-          description: '* `auto` - Auto
-
-            * `tkip` - TKIP
-
-            * `aes` - AES'
-          x-spec-enum-id: 42f867e89988bb0c
-        auth_psk:
-          type: string
-          title: Pre-shared key
-          maxLength: 64
-        distance:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000
-          exclusiveMaximum: 1000000
-        distance_unit:
-          enum:
-          - km
-          - m
-          - mi
-          - ft
-          - ''
-          - null
-          type:
-          - string
-          - 'null'
-          description: '* `km` - Kilometers
-
-            * `m` - Meters
-
-            * `mi` - Miles
-
-            * `ft` - Feet'
-          x-spec-enum-id: b1169a409430c02e
-        description:
-          type: string
-          maxLength: 200
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTagRequest'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-      required:
-      - id
-    PaginatedWirelessLANGroupList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/WirelessLANGroup'
-    NestedTagRequest:
-      type: object
-      description: 'Represents an object related through a ForeignKey field. On write, it accepts a primary key (PK) value or a
-
-        dictionary of attributes which can be used to uniquely identify the related object. This class should be
-
-        subclassed to return a full representation of the related object on read.'
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        slug:
-          type: string
-          minLength: 1
-          pattern: ^[-\w]+$
-          maxLength: 100
-        color:
-          type: string
-          minLength: 1
-          pattern: ^[0-9a-f]{6}$
-          maxLength: 6
-      required:
-      - name
-      - slug
     BulkWirelessLinkRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
@@ -5507,7 +5004,7 @@ components:
       - id
       - interface_a
       - interface_b
-    BriefCable:
+    BriefDevice:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
@@ -5521,20 +5018,6 @@ components:
         display:
           type: string
           readOnly: true
-        label:
-          type: string
-          maxLength: 100
-        description:
-          type: string
-          maxLength: 200
-      required:
-      - display
-      - id
-      - url
-    BriefDeviceRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
         name:
           type:
           - string
@@ -5543,7 +5026,123 @@ components:
         description:
           type: string
           maxLength: 200
-    NestedTag:
+      required:
+      - display
+      - id
+      - url
+    PatchedBulkWirelessLinkRequest:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        id:
+          type: integer
+        interface_a:
+          oneOf:
+          - type: integer
+          - $ref: '#/components/schemas/BriefInterfaceRequest'
+        interface_b:
+          oneOf:
+          - type: integer
+          - $ref: '#/components/schemas/BriefInterfaceRequest'
+        ssid:
+          type: string
+          maxLength: 32
+        status:
+          enum:
+          - connected
+          - planned
+          - decommissioning
+          type: string
+          description: '* `connected` - Connected
+
+            * `planned` - Planned
+
+            * `decommissioning` - Decommissioning'
+          x-spec-enum-id: 80d251a40f3a3144
+        tenant:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefTenantRequest'
+        auth_type:
+          enum:
+          - open
+          - wep
+          - wpa-personal
+          - wpa-enterprise
+          - ''
+          type: string
+          description: '* `open` - Open
+
+            * `wep` - WEP
+
+            * `wpa-personal` - WPA Personal (PSK)
+
+            * `wpa-enterprise` - WPA Enterprise'
+          x-spec-enum-id: e917c12aac765910
+        auth_cipher:
+          enum:
+          - auto
+          - tkip
+          - aes
+          - ''
+          type: string
+          description: '* `auto` - Auto
+
+            * `tkip` - TKIP
+
+            * `aes` - AES'
+          x-spec-enum-id: 42f867e89988bb0c
+        auth_psk:
+          type: string
+          title: Pre-shared key
+          maxLength: 64
+        distance:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000
+          exclusiveMaximum: 1000000
+        distance_unit:
+          enum:
+          - km
+          - m
+          - mi
+          - ft
+          - ''
+          - null
+          type:
+          - string
+          - 'null'
+          description: '* `km` - Kilometers
+
+            * `m` - Meters
+
+            * `mi` - Miles
+
+            * `ft` - Feet'
+          x-spec-enum-id: b1169a409430c02e
+        description:
+          type: string
+          maxLength: 200
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTagRequest'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+      required:
+      - id
+    NestedTagRequest:
       type: object
       description: 'Represents an object related through a ForeignKey field. On write, it accepts a primary key (PK) value or a
 
@@ -5551,54 +5150,20 @@ components:
 
         subclassed to return a full representation of the related object on read.'
       properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display_url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
         name:
           type: string
+          minLength: 1
           maxLength: 100
         slug:
           type: string
+          minLength: 1
           pattern: ^[-\w]+$
           maxLength: 100
         color:
           type: string
+          minLength: 1
           pattern: ^[0-9a-f]{6}$
           maxLength: 6
-      required:
-      - display
-      - display_url
-      - id
-      - name
-      - slug
-      - url
-    BriefTenantRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        slug:
-          type: string
-          minLength: 1
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        description:
-          type: string
-          maxLength: 200
       required:
       - name
       - slug
@@ -5756,12 +5321,14 @@ components:
       - scope
       - ssid
       - url
-    PatchedBulkWirelessLANGroupRequest:
+    NestedWirelessLANGroupRequest:
       type: object
-      description: Base serializer class for models inheriting from NestedGroupModel.
+      description: 'Represents an object related through a ForeignKey field. On write, it accepts a primary key (PK) value or a
+
+        dictionary of attributes which can be used to uniquely identify the related object. This class should be
+
+        subclassed to return a full representation of the related object on read.'
       properties:
-        id:
-          type: integer
         name:
           type: string
           minLength: 1
@@ -5771,48 +5338,34 @@ components:
           minLength: 1
           maxLength: 100
           pattern: ^[-a-zA-Z0-9_]+$
-        parent:
-          allOf:
-          - $ref: '#/components/schemas/NestedWirelessLANGroupRequest'
-        description:
-          type: string
-          maxLength: 200
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTagRequest'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-      required:
-      - id
-    BriefVLANRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        vid:
-          type: integer
-          maximum: 4094
-          minimum: 1
-          title: VLAN ID
-          description: Numeric VLAN ID (1-4094)
-        name:
-          type: string
-          minLength: 1
-          maxLength: 64
-        description:
-          type: string
-          maxLength: 200
       required:
       - name
-      - vid
+      - slug
+    PaginatedWirelessLANList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WirelessLAN'
     PaginatedWirelessLinkList:
       type: object
       required:
@@ -5838,6 +5391,242 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/WirelessLink'
+    BriefInterface:
+      type: object
+      description: Adds an `owner` field for models which have a ForeignKey to users.Owner.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        device:
+          $ref: '#/components/schemas/BriefDevice'
+        name:
+          type: string
+          maxLength: 64
+        description:
+          type: string
+          maxLength: 200
+        cable:
+          allOf:
+          - $ref: '#/components/schemas/BriefCable'
+          readOnly: true
+        _occupied:
+          type: boolean
+          readOnly: true
+          title: ' occupied'
+      required:
+      - _occupied
+      - cable
+      - device
+      - display
+      - id
+      - name
+      - url
+    WritableWirelessLANGroupRequest:
+      type: object
+      description: Base serializer class for models inheriting from NestedGroupModel.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        parent:
+          type:
+          - integer
+          - 'null'
+        description:
+          type: string
+          maxLength: 200
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTagRequest'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+      required:
+      - name
+      - slug
+    BriefWirelessLANGroup:
+      type: object
+      description: Base serializer class for models inheriting from NestedGroupModel.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+          maxLength: 200
+        wirelesslan_count:
+          type: integer
+          readOnly: true
+          default: 0
+        _depth:
+          type: integer
+          readOnly: true
+          title: ' depth'
+      required:
+      - _depth
+      - display
+      - id
+      - name
+      - slug
+      - url
+      - wirelesslan_count
+    BriefTenantRequest:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - name
+      - slug
+    BulkWirelessLANRequest:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        id:
+          type: integer
+        ssid:
+          type: string
+          minLength: 1
+          maxLength: 32
+        description:
+          type: string
+          maxLength: 200
+        group:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefWirelessLANGroupRequest'
+        status:
+          enum:
+          - active
+          - reserved
+          - disabled
+          - deprecated
+          - ''
+          type: string
+          description: '* `active` - Active
+
+            * `reserved` - Reserved
+
+            * `disabled` - Disabled
+
+            * `deprecated` - Deprecated'
+          x-spec-enum-id: e5549d7370ce2e6c
+        vlan:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefVLANRequest'
+        scope_type:
+          type:
+          - string
+          - 'null'
+        scope_id:
+          type:
+          - integer
+          - 'null'
+        tenant:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefTenantRequest'
+        auth_type:
+          enum:
+          - open
+          - wep
+          - wpa-personal
+          - wpa-enterprise
+          - ''
+          type: string
+          description: '* `open` - Open
+
+            * `wep` - WEP
+
+            * `wpa-personal` - WPA Personal (PSK)
+
+            * `wpa-enterprise` - WPA Enterprise'
+          x-spec-enum-id: e917c12aac765910
+        auth_cipher:
+          enum:
+          - auto
+          - tkip
+          - aes
+          - ''
+          type: string
+          description: '* `auto` - Auto
+
+            * `tkip` - TKIP
+
+            * `aes` - AES'
+          x-spec-enum-id: 42f867e89988bb0c
+        auth_psk:
+          type: string
+          title: Pre-shared key
+          maxLength: 64
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTagRequest'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+      required:
+      - id
+      - ssid
     BulkWirelessLANGroupRequest:
       type: object
       description: Base serializer class for models inheriting from NestedGroupModel.
@@ -5877,50 +5666,33 @@ components:
       - id
       - name
       - slug
-    PatchedWritableWirelessLANRequest:
+    PatchedWritableWirelessLinkRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
+        interface_a:
+          oneOf:
+          - type: integer
+          - $ref: '#/components/schemas/BriefInterfaceRequest'
+        interface_b:
+          oneOf:
+          - type: integer
+          - $ref: '#/components/schemas/BriefInterfaceRequest'
         ssid:
           type: string
-          minLength: 1
           maxLength: 32
-        description:
-          type: string
-          maxLength: 200
-        group:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefWirelessLANGroupRequest'
         status:
           enum:
-          - active
-          - reserved
-          - disabled
-          - deprecated
+          - connected
+          - planned
+          - decommissioning
           type: string
-          description: '* `active` - Active
+          description: '* `connected` - Connected
 
-            * `reserved` - Reserved
+            * `planned` - Planned
 
-            * `disabled` - Disabled
-
-            * `deprecated` - Deprecated'
-          x-spec-enum-id: e5549d7370ce2e6c
-        vlan:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefVLANRequest'
-        scope_type:
-          type:
-          - string
-          - 'null'
-        scope_id:
-          type:
-          - integer
-          - 'null'
+            * `decommissioning` - Decommissioning'
+          x-spec-enum-id: 80d251a40f3a3144
         tenant:
           oneOf:
           - type: integer
@@ -5967,6 +5739,35 @@ components:
           type: string
           title: Pre-shared key
           maxLength: 64
+        distance:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000
+          exclusiveMaximum: 1000000
+        distance_unit:
+          enum:
+          - km
+          - m
+          - mi
+          - ft
+          - ''
+          - null
+          type:
+          - string
+          - 'null'
+          description: '* `km` - Kilometers
+
+            * `m` - Meters
+
+            * `mi` - Miles
+
+            * `ft` - Feet'
+          x-spec-enum-id: b1169a409430c02e
+        description:
+          type: string
+          maxLength: 200
         owner:
           oneOf:
           - type: integer
@@ -5981,6 +5782,340 @@ components:
         custom_fields:
           type: object
           additionalProperties: {}
+    PatchedBulkWirelessLANGroupRequest:
+      type: object
+      description: Base serializer class for models inheriting from NestedGroupModel.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        parent:
+          allOf:
+          - $ref: '#/components/schemas/NestedWirelessLANGroupRequest'
+        description:
+          type: string
+          maxLength: 200
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTagRequest'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+      required:
+      - id
+    WirelessLANGroupRequest:
+      type: object
+      description: Base serializer class for models inheriting from NestedGroupModel.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        parent:
+          allOf:
+          - $ref: '#/components/schemas/NestedWirelessLANGroupRequest'
+        description:
+          type: string
+          maxLength: 200
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTagRequest'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+      required:
+      - name
+      - slug
+    BriefVLANRequest:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        vid:
+          type: integer
+          maximum: 4094
+          minimum: 1
+          title: VLAN ID
+          description: Numeric VLAN ID (1-4094)
+        name:
+          type: string
+          minLength: 1
+          maxLength: 64
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - name
+      - vid
+    BriefVLAN:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        vid:
+          type: integer
+          maximum: 4094
+          minimum: 1
+          title: VLAN ID
+          description: Numeric VLAN ID (1-4094)
+        name:
+          type: string
+          maxLength: 64
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - display
+      - id
+      - name
+      - url
+      - vid
+    BriefOwnerRequest:
+      type: object
+      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
+
+        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - name
+    WritableWirelessLinkRequest:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        interface_a:
+          oneOf:
+          - type: integer
+          - $ref: '#/components/schemas/BriefInterfaceRequest'
+        interface_b:
+          oneOf:
+          - type: integer
+          - $ref: '#/components/schemas/BriefInterfaceRequest'
+        ssid:
+          type: string
+          maxLength: 32
+        status:
+          enum:
+          - connected
+          - planned
+          - decommissioning
+          type: string
+          description: '* `connected` - Connected
+
+            * `planned` - Planned
+
+            * `decommissioning` - Decommissioning'
+          x-spec-enum-id: 80d251a40f3a3144
+        tenant:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefTenantRequest'
+        auth_type:
+          enum:
+          - open
+          - wep
+          - wpa-personal
+          - wpa-enterprise
+          - ''
+          - null
+          type:
+          - string
+          - 'null'
+          description: '* `open` - Open
+
+            * `wep` - WEP
+
+            * `wpa-personal` - WPA Personal (PSK)
+
+            * `wpa-enterprise` - WPA Enterprise'
+          x-spec-enum-id: e917c12aac765910
+          title: Authentication type
+        auth_cipher:
+          enum:
+          - auto
+          - tkip
+          - aes
+          - ''
+          - null
+          type:
+          - string
+          - 'null'
+          description: '* `auto` - Auto
+
+            * `tkip` - TKIP
+
+            * `aes` - AES'
+          x-spec-enum-id: 42f867e89988bb0c
+          title: Authentication cipher
+        auth_psk:
+          type: string
+          title: Pre-shared key
+          maxLength: 64
+        distance:
+          type:
+          - number
+          - 'null'
+          format: double
+          exclusiveMinimum: -1000000
+          exclusiveMaximum: 1000000
+        distance_unit:
+          enum:
+          - km
+          - m
+          - mi
+          - ft
+          - ''
+          - null
+          type:
+          - string
+          - 'null'
+          description: '* `km` - Kilometers
+
+            * `m` - Meters
+
+            * `mi` - Miles
+
+            * `ft` - Feet'
+          x-spec-enum-id: b1169a409430c02e
+        description:
+          type: string
+          maxLength: 200
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTagRequest'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+      required:
+      - interface_a
+      - interface_b
+    PatchedWritableWirelessLANGroupRequest:
+      type: object
+      description: Base serializer class for models inheriting from NestedGroupModel.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        parent:
+          type:
+          - integer
+          - 'null'
+        description:
+          type: string
+          maxLength: 200
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/NestedTagRequest'
+        custom_fields:
+          type: object
+          additionalProperties: {}
+        owner:
+          oneOf:
+          - type: integer
+          - allOf:
+            - $ref: '#/components/schemas/BriefOwnerRequest'
+        comments:
+          type: string
+    NestedWirelessLANGroup:
+      type: object
+      description: 'Represents an object related through a ForeignKey field. On write, it accepts a primary key (PK) value or a
+
+        dictionary of attributes which can be used to uniquely identify the related object. This class should be
+
+        subclassed to return a full representation of the related object on read.'
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display_url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        _depth:
+          type: integer
+          readOnly: true
+          title: ' depth'
+      required:
+      - _depth
+      - display
+      - display_url
+      - id
+      - name
+      - slug
+      - url
     WirelessLink:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
@@ -6154,7 +6289,75 @@ components:
       - interface_b
       - last_updated
       - url
-    WritableWirelessLANRequest:
+    BriefWirelessLANGroupRequest:
+      type: object
+      description: Base serializer class for models inheriting from NestedGroupModel.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        slug:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - name
+      - slug
+    BriefCable:
+      type: object
+      description: Base serializer class for models inheriting from PrimaryModel.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        display:
+          type: string
+          readOnly: true
+        label:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 200
+      required:
+      - display
+      - id
+      - url
+    PaginatedWirelessLANGroupList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WirelessLANGroup'
+    WirelessLANRequest:
       type: object
       description: Base serializer class for models inheriting from PrimaryModel.
       properties:
@@ -6176,6 +6379,7 @@ components:
           - reserved
           - disabled
           - deprecated
+          - ''
           type: string
           description: '* `active` - Active
 
@@ -6210,10 +6414,7 @@ components:
           - wpa-personal
           - wpa-enterprise
           - ''
-          - null
-          type:
-          - string
-          - 'null'
+          type: string
           description: '* `open` - Open
 
             * `wep` - WEP
@@ -6222,24 +6423,19 @@ components:
 
             * `wpa-enterprise` - WPA Enterprise'
           x-spec-enum-id: e917c12aac765910
-          title: Authentication type
         auth_cipher:
           enum:
           - auto
           - tkip
           - aes
           - ''
-          - null
-          type:
-          - string
-          - 'null'
+          type: string
           description: '* `auto` - Auto
 
             * `tkip` - TKIP
 
             * `aes` - AES'
           x-spec-enum-id: 42f867e89988bb0c
-          title: Authentication cipher
         auth_psk:
           type: string
           title: Pre-shared key
@@ -6260,162 +6456,6 @@ components:
           additionalProperties: {}
       required:
       - ssid
-    BriefOwnerRequest:
-      type: object
-      description: 'Extends the built-in ModelSerializer to enforce calling full_clean() on a copy of the associated instance during
-
-        validation. (DRF does not do this by default; see https://github.com/encode/django-rest-framework/issues/3144)'
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-        description:
-          type: string
-          maxLength: 200
-      required:
-      - name
-    PatchedWritableWirelessLinkRequest:
-      type: object
-      description: Base serializer class for models inheriting from PrimaryModel.
-      properties:
-        interface_a:
-          oneOf:
-          - type: integer
-          - $ref: '#/components/schemas/BriefInterfaceRequest'
-        interface_b:
-          oneOf:
-          - type: integer
-          - $ref: '#/components/schemas/BriefInterfaceRequest'
-        ssid:
-          type: string
-          maxLength: 32
-        status:
-          enum:
-          - connected
-          - planned
-          - decommissioning
-          type: string
-          description: '* `connected` - Connected
-
-            * `planned` - Planned
-
-            * `decommissioning` - Decommissioning'
-          x-spec-enum-id: 80d251a40f3a3144
-        tenant:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefTenantRequest'
-        auth_type:
-          enum:
-          - open
-          - wep
-          - wpa-personal
-          - wpa-enterprise
-          - ''
-          - null
-          type:
-          - string
-          - 'null'
-          description: '* `open` - Open
-
-            * `wep` - WEP
-
-            * `wpa-personal` - WPA Personal (PSK)
-
-            * `wpa-enterprise` - WPA Enterprise'
-          x-spec-enum-id: e917c12aac765910
-          title: Authentication type
-        auth_cipher:
-          enum:
-          - auto
-          - tkip
-          - aes
-          - ''
-          - null
-          type:
-          - string
-          - 'null'
-          description: '* `auto` - Auto
-
-            * `tkip` - TKIP
-
-            * `aes` - AES'
-          x-spec-enum-id: 42f867e89988bb0c
-          title: Authentication cipher
-        auth_psk:
-          type: string
-          title: Pre-shared key
-          maxLength: 64
-        distance:
-          type:
-          - number
-          - 'null'
-          format: double
-          exclusiveMinimum: -1000000
-          exclusiveMaximum: 1000000
-        distance_unit:
-          enum:
-          - km
-          - m
-          - mi
-          - ft
-          - ''
-          - null
-          type:
-          - string
-          - 'null'
-          description: '* `km` - Kilometers
-
-            * `m` - Meters
-
-            * `mi` - Miles
-
-            * `ft` - Feet'
-          x-spec-enum-id: b1169a409430c02e
-        description:
-          type: string
-          maxLength: 200
-        owner:
-          oneOf:
-          - type: integer
-          - allOf:
-            - $ref: '#/components/schemas/BriefOwnerRequest'
-        comments:
-          type: string
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/NestedTagRequest'
-        custom_fields:
-          type: object
-          additionalProperties: {}
-    PaginatedWirelessLANList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/WirelessLAN'
     BriefInterfaceRequest:
       type: object
       description: Adds an `owner` field for models which have a ForeignKey to users.Owner.
@@ -6434,46 +6474,6 @@ components:
       required:
       - device
       - name
-    BriefWirelessLANGroup:
-      type: object
-      description: Base serializer class for models inheriting from NestedGroupModel.
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        display:
-          type: string
-          readOnly: true
-        name:
-          type: string
-          maxLength: 100
-        slug:
-          type: string
-          maxLength: 100
-          pattern: ^[-a-zA-Z0-9_]+$
-        description:
-          type: string
-          maxLength: 200
-        wirelesslan_count:
-          type: integer
-          readOnly: true
-          default: 0
-        _depth:
-          type: integer
-          readOnly: true
-          title: ' depth'
-      required:
-      - _depth
-      - display
-      - id
-      - name
-      - slug
-      - url
-      - wirelesslan_count
   securitySchemes:
     cookieAuth:
       type: apiKey
